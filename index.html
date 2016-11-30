@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+
+<head>
+  <meta charset="utf-8">
+  <title>Juan Dias Fotografía</title>
+
+  <!-- JQUERY -->
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+
+  <!-- BOOTSTRAP -->
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
+
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <!-- ANGULAR  -->
+  <script src="node_modules/angular/angular.min.js"></script>
+  <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+
+  <!-- FACEBOOK GRAPH API -->
+  <script src="//connect.facebook.net/en_US/sdk.js"></script>
+
+
+  <link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+
+<body ng-controller="PortfolioCtrl as portfolio">
+
+
+<div class="container">
+  <div class="page-header">
+  Facebook images
+  </div>
+
+   <div class="row" data-ng-repeat="image in portfolio.images">
+    Name: {{ image.images[1].name }}
+    Size: {{ image.images[1].width }} x {{ image.images[1].height }}
+    <img ng-src="{{ image.images[1].source }}">
+  </div>
+
+</div>
+
+<script src="js/portfolio.js"></script>
+
+</body>
+</html>
+
