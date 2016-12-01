@@ -7,7 +7,6 @@ angular.module('app', [])
 .controller('PortfolioCtrl', function ($q, $window) {
 
 	var self = this;
-//	var accessToken;
 	self.images = [];
 
 
@@ -37,9 +36,9 @@ angular.module('app', [])
 
   self.getImages = function() {
     var deferred = $q.defer();
-    FB.api('/me/photos', {
+    FB.api('/10157749344900537/photos', {
       fields: 'images,name,from'
-      //,access_token: self.accessToken
+//      ,access_token: self.accessToken
     }, function(response) {
       if (!response || response.error) {
       	console.log(response);
