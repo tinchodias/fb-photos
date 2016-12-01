@@ -7,7 +7,7 @@ angular.module('app', [])
 .controller('PortfolioCtrl', function ($q, $window) {
 
 	var self = this;
-	var accessToken;
+//	var accessToken;
 	self.images = [];
 
 
@@ -19,7 +19,9 @@ angular.module('app', [])
       version    : 'v2.8'
     });
 
-		FB.getLoginStatus(function(response) {
+    self.initializeNow();
+
+/*		FB.getLoginStatus(function(response) {
 		  console.log(response);
 		  if (response.status === 'connected') {
 				self.accessToken = response.authResponse.accessToken;
@@ -28,7 +30,7 @@ angular.module('app', [])
 		  else {
 		    FB.login();
 		  }
-		});
+		});*/
 
   };
 
@@ -36,8 +38,8 @@ angular.module('app', [])
   self.getImages = function() {
     var deferred = $q.defer();
     FB.api('/me/photos', {
-      fields: 'images,name,from',
-      access_token: self.accessToken
+      fields: 'images,name,from'
+      //,access_token: self.accessToken
     }, function(response) {
       if (!response || response.error) {
       	console.log(response);
