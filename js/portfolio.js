@@ -7,6 +7,7 @@ angular.module('app', [])
 .controller('PortfolioCtrl', function ($q, $window) {
 
 	var self = this;
+	self.accessToken = '';
 	self.images = [];
 
 
@@ -20,29 +21,32 @@ angular.module('app', [])
 
     self.initializeNow();
 
-/*		FB.getLoginStatus(function(response) {
+		FB.getLoginStatus(function(response) {
 		  console.log(response);
 		  if (response.status === 'connected') {
-				self.accessToken = response.authResponse.accessToken;
+				self.accessToken = response.authResponse.accessToken;			// Need an accessToken from the website visitor???
 		    self.initializeNow();
 		  }
 		  else {
 		    FB.login();
 		  }
-		});*/
+		});
 
   };
 
 
   self.getImages = function() {
     var deferred = $q.defer();
-    FB.api('/10157749344900537/photos', {
-      fields: 'images,name,from'
-//      ,access_token: self.accessToken
+    FB.api('/me/photos', {					// ID expires?
+      fields: 'images,name',
+      type: 'uploaded',
+      access_token: self.accessToken
     }, function(response) {
+
+     	console.log(response);
+
       if (!response || response.error) {
-      	console.log(response);
-          deferred.reject('Error occured');
+          deferred.reject(response.error);
       } else {
           deferred.resolve(response);
       }
@@ -57,7 +61,7 @@ angular.module('app', [])
     	.then(function(response) {
       	self.images = response.data;
      	}, function(error) {
-     		console.log(error);
+     		alert(error.message);
      	}
   	);
   };

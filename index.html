@@ -23,11 +23,7 @@
 
   <div class="row" data-ng-repeat="image in portfolio.images">
 
-    <div class="well-lg">
-      <p>From: {{ image.from.name }}</p>
-      <p>Size: {{ image.images[1].width }} x {{ image.images[1].height }}</p>
-      <p ng-show="image.images[1].name">Name: {{ image.images[1].name }}</p>
-    </div>
+    <p ng-show="image.images[1].name">Name: {{ image.images[1].name }}</p>
     <img ng-src="{{ image.images[1].source }}">
     <hr>
 
