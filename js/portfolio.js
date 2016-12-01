@@ -7,23 +7,37 @@ angular.module('app', [])
 .controller('PortfolioCtrl', function ($q, $window) {
 
 	var self = this;
+	var accessToken;
+	self.images = [];
 
 
   $window.fbAsyncInit = function() {
+
     FB.init({
       appId      : '1830084957235970',
-      xfbml      : true,
+      xfbml      : false,
       version    : 'v2.8'
     });
 
-    self.initializeNow();
+		FB.getLoginStatus(function(response) {
+		  console.log(response);
+		  if (response.status === 'connected') {
+				self.accessToken = response.authResponse.accessToken;
+		    self.initializeNow();
+		  }
+		  else {
+		    FB.login();
+		  }
+		});
+
   };
+
 
   self.getImages = function() {
     var deferred = $q.defer();
     FB.api('/me/photos', {
-      fields: 'images,name',
-      access_token: 'EAAaAc9vI6wIBAIjdc40UtGcQNqt5WnQy2MmOeZBeUZAjg51akZCDr9wvejfsbkFxwU07ETEeFoUf3VA4GLlUhXvU99Cr9F56ChboaKk5faCAw1tdoBzRSoPTvGykZBJnKaxZCyR5NHXNkbLuAGq9ZC6eolaPXZAPyf6WulTZATpOhAZDZD'
+      fields: 'images,name,from',
+      access_token: self.accessToken
     }, function(response) {
       if (!response || response.error) {
       	console.log(response);
@@ -34,7 +48,6 @@ angular.module('app', [])
     });
     return deferred.promise;
   };
-
 
 
 	self.initializeNow = function() {
@@ -48,8 +61,6 @@ angular.module('app', [])
   	);
   };
 
-
-	self.images = [];
 
 })
 
