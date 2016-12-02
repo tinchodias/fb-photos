@@ -3,14 +3,36 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Facebook Graph API Experiment</title>
+  <title>Facebook Photo Browser</title>
 
-  <!-- ANGULAR  -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+  <!-- ANGULAR MASONRY 
+  <script src="node_modules/jquery/dist/jquery.js"></script>
+  <script src="node_modules/jquery-bridget/jquery-bridget.js"></script>
+  <script src="node_modules/ev-emitter/ev-emitter.js"></script>
+  <script src="node_modules/desandro-matches-selector/matches-selector.js"></script>
+  <script src="node_modules/fizzy-ui-utils/utils.js"></script>
+  <script src="node_modules/get-size/get-size.js"></script>
+  <script src="node_modules/outlayer/item.js"></script>
+  <script src="node_modules/outlayer/outlayer.js"></script>
+  <script src="node_modules/masonry-layout/masonry.js"></script>
+  <script src="node_modules/imagesloaded/imagesloaded.js"></script>
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="node_modules/angular-masonry/angular-masonry.js"></script> -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/jquery-bridget/jquery-bridget.js"></script>
+  <script src="bower_components/ev-emitter/ev-emitter.js"></script>
+  <script src="bower_components/desandro-matches-selector/matches-selector.js"></script>
+  <script src="bower_components/fizzy-ui-utils/utils.js"></script>
+  <script src="bower_components/get-size/get-size.js"></script>
+  <script src="bower_components/outlayer/item.js"></script>
+  <script src="bower_components/outlayer/outlayer.js"></script>
+  <script src="bower_components/masonry/masonry.js"></script>
+  <script src="bower_components/imagesloaded/imagesloaded.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-masonry/angular-masonry.js"></script>
 
   <!-- FACEBOOK GRAPH API -->
   <script src="//connect.facebook.net/en_US/sdk.js"></script>
-
 
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 
@@ -18,19 +40,15 @@
 
 <body ng-controller="PortfolioCtrl as portfolio">
 
+  <div masonry column-width="140" preserve-order reload-on-resize >
 
-<div class="container">
-
-  <div class="row" data-ng-repeat="image in portfolio.images">
-
-    <p ng-show="image.images[1].name">Name: {{ image.images[1].name }}</p>
-    <img ng-src="{{ image.images[1].source }}">
+    <div class="masonry-brick" data-ng-repeat="image in portfolio.images">
+      <img ng-src="{{ image.picture }}">
+    </div>
 
   </div>
 
-</div>
-
-<script src="js/portfolio.js"></script>
+  <script src="js/portfolio.js"></script>
 
 </body>
 </html>

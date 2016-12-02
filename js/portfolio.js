@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('app', [])
+angular.module('app', ['wu.masonry'])
 
 
 .controller('PortfolioCtrl', function ($q, $window) {
@@ -19,6 +19,7 @@ angular.module('app', [])
       version    : 'v2.8'
     });
 
+//    self.initializeNow();
 		FB.getLoginStatus(function(response) {
 		  console.log(response);
 		  if (response.status === 'connected') {
@@ -35,18 +36,16 @@ angular.module('app', [])
 
   self.getImages = function() {
     var deferred = $q.defer();
-    FB.api('/me/photos', {					// Does user-id expire?
-      fields: 'images,name',
+    FB.api('/me/photos', {
+      fields: 'picture',
+      limit: '999',
       type: 'uploaded',
       access_token: self.accessToken
     }, function(response) {
-
-     	console.log(response);
-
       if (!response || response.error) {
           deferred.reject(response.error);
       } else {
-          deferred.resolve(response);
+          deferred.resolve(response.data);
       }
     });
     return deferred.promise;
@@ -54,10 +53,10 @@ angular.module('app', [])
 
 
 	self.initializeNow = function() {
-
 		self.getImages() 
-    	.then(function(response) {
-      	self.images = response.data;
+    	.then(function(images) {
+      	self.images = images;
+        console.log(images.length);
      	}, function(error) {
      		alert(error.message);
      	}

@@ -1,8 +1,17 @@
 
-img {
-  width: 100%;
+body {
+  margin: 4px;
 }
 
-body {
-  margin: 0;
+img {
+  width: 136px;
+}
+
+.masonry-brick {
+//  margin: 0;
+  display: none;
+}
+
+.masonry-brick.loaded {
+  display: block;
 }

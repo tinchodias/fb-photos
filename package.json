@@ -1,12 +1,20 @@
 {
+  "name": "fb-photos2",
   "version": "1.0.0",
-  "description": "Juan Dias Website",
-  "author": "tinchodias@gmail.com",
-  "license": "MIT",
+  "description": "FB photo browser",
+  "main": "index.js",
   "dependencies": {
-    "angular": "^1.4.4",
-    "angular-animate": "^1.4.4",
-    "bootstrap": "^3.3.5",
-    "jquery": "^2.1.4"
-  }
+    "angular-masonry": "^0.16.0",
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "graph",
+    "api",
+    "facebook"
+  ],
+  "author": "tinchodias@gmail.com",
+  "license": "MIT"
 }
