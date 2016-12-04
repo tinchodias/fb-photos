@@ -4,7 +4,7 @@
 angular.module('app', ['wu.masonry'])
 
 
-.controller('PortfolioCtrl', function ($q, $window) {
+.controller('FacebookCtrl', function ($q, $window) {
 
 	var self = this;
 	self.accessToken = '';
