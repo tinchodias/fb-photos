@@ -39,7 +39,7 @@ angular.module('app', ['wu.masonry'])
   self.getImages = function(after) {
     var deferred = $q.defer();
     var parameters = {
-      fields: 'picture',
+      fields: 'picture, images{source}',
       limit: '99',
       type: 'uploaded',
       access_token: self.accessToken,
