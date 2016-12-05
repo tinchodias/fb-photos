@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" ng-app="app">
+
+<head>
+  <meta charset="utf-8">
+  <title>Facebook Photo Browser</title>
+
+  <!-- ANGULAR MASONRY -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/jquery-bridget/jquery-bridget.js"></script>
+  <script src="bower_components/ev-emitter/ev-emitter.js"></script>
+  <script src="bower_components/desandro-matches-selector/matches-selector.js"></script>
+  <script src="bower_components/fizzy-ui-utils/utils.js"></script>
+  <script src="bower_components/get-size/get-size.js"></script>
+  <script src="bower_components/outlayer/item.js"></script>
+  <script src="bower_components/outlayer/outlayer.js"></script>
+  <script src="bower_components/masonry/masonry.js"></script>
+  <script src="bower_components/imagesloaded/imagesloaded.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-masonry/angular-masonry.js"></script>
+
+  <!-- LIGHTBOX -->
+  <link href="bower_components/lightbox2/dist/css/lightbox.min.css" rel="stylesheet">
+  <script src="bower_components/lightbox2/dist/js/lightbox.min.js"></script>
+
+  <!-- FACEBOOK GRAPH API -->
+  <script src="//connect.facebook.net/en_US/sdk.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+
+<body ng-controller="FacebookCtrl as portfolio">
+
+  <div masonry column-width="140" preserve-order reload-on-resize >
+    <div class="masonry-brick" ng-repeat="image in portfolio.images">
+      <a href="{{ image.images[1].source }}" data-lightbox="roadtrip">
+        <img ng-src="{{ image.picture }}">
+      </a>
+    </div>
+  </div>
+
+  <script src="js/facebook.js"></script>
+  <script>
+    lightbox.option({
+      'resizeDuration': 200,
+      'wrapAround': true,
+      'disableScrolling': false
+    })
+  </script>
+
+</body>
+</html>
+
