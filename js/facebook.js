@@ -7,7 +7,7 @@ angular.module('app', ['wu.masonry'])
 .controller('FacebookCtrl', function ($q, $window) {
 
 	var self = this;
-	self.accessToken = 'EAAaAc9vI6wIBAMdMH1G5w8wEnIsHW9yEwdFY5IpqU2pR25JMP262jbDPqZBkgKYlsFJbMEnlZBO4gZBBOTPYWBOjQaQSZCzVhqyHMPAouO5PzbUIp3RAy1tsn9MSUHqJZCzRiUCjL2KOlr3QldoqwxRLtZCZBYZAQUulExsV4jI2FQZDZD';
+	self.accessToken = 'EAAaAc9vI6wIBAAJnMXzw5w2XkZBjRYRazazvqveQYI0TwrCZBtXqX0cshKxWs99fNHwngZBR6eHZC3liR2u19xu3W0ukAE7wJwvI7uKO8UGqj5aXFxK0bSZCzU3eLukHbYYljvoibPm4NDSwItP0t';
 	self.images = [];
   self.isInitialized = false;
 
@@ -42,12 +42,12 @@ angular.module('app', ['wu.masonry'])
 
 
   self.getAllPhotos = function() {
-    return self.getAll('/me/photos', 'picture, images{source}');
+    return self.getAll('/me/photos', 'picture,images{source,width,height},created_time,link');
   };
 
 
 
-  self.getAll = function(facebookApiFunction) {
+  self.getAll = function(resource, fields) {
 
     var deferred = $q.defer();
     var data = [];
@@ -62,11 +62,14 @@ angular.module('app', ['wu.masonry'])
         access_token: self.accessToken,
         after: after
       }, function(response) {
+        
+        console.log(response);
+
         if (!response || response.error) {
           callback(response.error);
         } else {
           data = data.concat(response.data);
-          if (response.paging) {
+          if (response.paging && response.paging.next) {  // next is the best indicator to know if there are more
             after = response.paging.cursors.after;
           } else {
             after = undefined;
@@ -77,7 +80,7 @@ angular.module('app', ['wu.masonry'])
 
     },
     function () {
-      return after === undefined;
+      return after !== undefined;
     },
     function (error) {
       if (error) {
@@ -93,12 +96,13 @@ angular.module('app', ['wu.masonry'])
 
 
 	self.initializeNow = function() {
-		self.getAllPhotos() 
-    	.then(function(images) {
+		self.getAllPhotos().then(
+      function(images) {
       	self.images = images;
         self.isInitialized = true;
         console.log("initializeNow loaded #" + images.length);
-     	}, function(error) {
+     	}, 
+      function(error) {
      		alert(error.message);
      	}
   	);

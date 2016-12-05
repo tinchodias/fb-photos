@@ -1,17 +1,19 @@
 
-body {
+html, body {
   margin: 4px;
+  font-family: sans-serif;
 }
 
 .picture {
   width: 136px;
 }
 
-.masonry-brick {
-//  margin: 0;
-  display: none;
+.info {
+  margin-top: 0;
+  margin-bottom: 0.6em;
 }
 
-.masonry-brick.loaded {
-  display: block;
+.info p {
+  font-size: 0.6em;
+  margin: 0;
 }

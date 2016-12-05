@@ -38,10 +38,22 @@
   <img src="img/loading-fb.gif" ng-hide="facebook.isInitialized">
 
   <div masonry column-width="140" preserve-order reload-on-resize >
-    <div class="masonry-brick" ng-repeat="image in facebook.images">
-      <a href="{{ image.images[1].source }}" data-lightbox="roadtrip">
-        <img class="picture" ng-src="{{ image.picture }}">
+    <div class="masonry-brick" ng-repeat="photo in facebook.images">
+      <a ng-href="{{photo.images[1].source}}" data-lightbox="thephotos">
+        <img class="picture" ng-src="{{photo.picture}}">
       </a>
+      <div class="info">
+        <p>
+          <span ng-bind="photo.created_time | date"></span>
+        </p>
+        <p>
+          <span ng-bind="photo.images[1].width"></span>x<span ng-bind="photo.images[1].height"></span>
+        </p>
+        <p>
+          <a target="_blank" ng-href="{{photo.link}}">link</a>
+          <a download ng-href="{{photo.images[1].source}}">download</a>
+        </p>
+      </div>
     </div>
   </div>
 
