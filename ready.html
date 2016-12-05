@@ -40,7 +40,7 @@
   <div masonry column-width="140" preserve-order reload-on-resize >
     <div class="masonry-brick" ng-repeat="image in facebook.images">
       <a href="{{ image.images[1].source }}" data-lightbox="roadtrip">
-        <img ng-src="{{ image.picture }}">
+        <img class="picture" ng-src="{{ image.picture }}">
       </a>
     </div>
   </div>
