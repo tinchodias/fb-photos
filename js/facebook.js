@@ -42,7 +42,7 @@ angular.module('app', ['wu.masonry'])
 
 
   self.getAllPhotos = function() {
-    return self.getAll('/me/photos', 'picture,images{source,width,height},created_time,link');
+    return self.getAll('/me/photos', 'picture,images{source,width,height},created_time,link,reactions.limit(99){type},comments.limit(99){id}');
   };
 
 

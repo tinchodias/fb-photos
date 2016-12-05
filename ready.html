@@ -53,6 +53,12 @@
           <a target="_blank" ng-href="{{photo.link}}">link</a>
           <a download ng-href="{{photo.images[1].source}}">download</a>
         </p>
+        <p>
+          # comments: <span ng-bind="photo.comments.data.length"></span>
+        </p>
+        <p>
+          # reactions: <span ng-bind="photo.reactions.data.length"></span>
+        </p>
       </div>
     </div>
   </div>
