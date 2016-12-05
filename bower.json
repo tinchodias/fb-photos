@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "angular-masonry": "^0.16.0",
-    "lightbox2": "^2.9.0"
+    "lightbox2": "^2.9.0",
+    "async": "^2.1.4"
   }
 }
