@@ -7,7 +7,7 @@ angular.module('app', ['wu.masonry'])
 .controller('FacebookCtrl', function ($q, $window) {
 
 	var self = this;
-	self.accessToken = 'EAAaAc9vI6wIBAAJnMXzw5w2XkZBjRYRazazvqveQYI0TwrCZBtXqX0cshKxWs99fNHwngZBR6eHZC3liR2u19xu3W0ukAE7wJwvI7uKO8UGqj5aXFxK0bSZCzU3eLukHbYYljvoibPm4NDSwItP0t';
+	self.accessToken = '';
 	self.images = [];
   self.isInitialized = false;
 

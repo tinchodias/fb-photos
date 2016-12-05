@@ -30,6 +30,10 @@
   <!-- ASYNC -->
   <script src="bower_components/async/dist/async.min.js"></script>
 
+  <!-- FONT AWESOME -->
+  <script src="https://use.fontawesome.com/9ccc9f2c30.js"></script>
+
+
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 
@@ -44,20 +48,18 @@
       </a>
       <div class="info">
         <p>
-          <span ng-bind="photo.created_time | date"></span>
+          <i class="fa fa-clock-o"></i> <span ng-bind="photo.created_time | date"></span>
+          <a target="_blank" ng-href="{{photo.link}}"><i class="fa fa-external-link"></i></a> 
+          <a download ng-href="{{photo.images[1].source}}"><i class="fa fa-download"></i></a>
         </p>
         <p>
-          <span ng-bind="photo.images[1].width"></span>x<span ng-bind="photo.images[1].height"></span>
+          <i class="fa fa-picture-o"></i> <span ng-bind="photo.images[1].width"></span>x<span ng-bind="photo.images[1].height"></span>
         </p>
         <p>
-          <a target="_blank" ng-href="{{photo.link}}">link</a>
-          <a download ng-href="{{photo.images[1].source}}">download</a>
+          <i class="fa fa-comments"></i> <span ng-bind="photo.comments.data.length"></span>
         </p>
         <p>
-          # comments: <span ng-bind="photo.comments.data.length"></span>
-        </p>
-        <p>
-          # reactions: <span ng-bind="photo.reactions.data.length"></span>
+          <i class="fa fa-heart"></i> <span ng-bind="photo.reactions.data.length"></span>
         </p>
       </div>
     </div>
