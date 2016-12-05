@@ -9,7 +9,7 @@ angular.module('app', ['wu.masonry'])
 	var self = this;
 	self.accessToken = '';
 	self.images = [];
-
+  self.isInitialized = false;
 
   $window.fbAsyncInit = function() {
 
@@ -29,7 +29,7 @@ angular.module('app', ['wu.masonry'])
 		    self.initializeNow();
 		  }
 		  else {
-		    FB.login();
+		    window.location = "index.html"    // redirect to login page
 		  }
 		});
 
@@ -72,6 +72,7 @@ angular.module('app', ['wu.masonry'])
 		self.getImages() 
     	.then(function(images) {
       	self.images = images;
+        self.isInitialized = true;
         console.log("initializeNow loaded #" + images.length);
      	}, function(error) {
      		alert(error.message);

@@ -29,10 +29,12 @@
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 
-<body ng-controller="FacebookCtrl as portfolio">
+<body ng-controller="FacebookCtrl as facebook">
+
+  <img src="img/loading-fb.gif" ng-hide="facebook.isInitialized">
 
   <div masonry column-width="140" preserve-order reload-on-resize >
-    <div class="masonry-brick" ng-repeat="image in portfolio.images">
+    <div class="masonry-brick" ng-repeat="image in facebook.images">
       <a href="{{ image.images[1].source }}" data-lightbox="roadtrip">
         <img ng-src="{{ image.picture }}">
       </a>
