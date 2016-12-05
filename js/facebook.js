@@ -23,7 +23,7 @@ angular.module('app', ['wu.masonry'])
 
 
     if (self.accessToken !== '') {
-      self.initializeNow(); "hardcoded access token (debugging)"
+      self.initializeNow();    // hardcoded access token (debugging)
     } else {
   		FB.getLoginStatus(function(response) {
   		  console.log(response);
@@ -57,7 +57,7 @@ angular.module('app', ['wu.masonry'])
 
       FB.api(resource, {
         fields: fields,
-        limit: '99',
+        limit: '200',
         type: 'uploaded',
         access_token: self.accessToken,
         after: after

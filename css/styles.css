@@ -5,15 +5,24 @@ html, body {
 }
 
 .picture {
-  width: 136px;
+  width: 196px; // !!!
 }
 
 .info {
+  max-width: 196px; // !!!
+
   margin-top: 0;
   margin-bottom: 0.6em;
 }
 
 .info p {
-  font-size: 0.6em;
+  font-size: 0.7em;
   margin: 0;
+  margin-bottom: 0.3em;
+  text-align: center;
+}
+
+.info span {
+  white-space: nowrap;
+  margin-right: 0.5em;
 }
