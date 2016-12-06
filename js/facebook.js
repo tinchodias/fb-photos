@@ -8,7 +8,7 @@ angular.module('app', ['wu.masonry'])
 
 	var self = this;
 	self.accessToken = '';
-	self.images = [];
+	self.photos = [];
   self.isInitialized = false;
 
   $window.fbAsyncInit = function() {
@@ -97,10 +97,10 @@ angular.module('app', ['wu.masonry'])
 
 	self.initializeNow = function() {
 		self.getAllPhotos().then(
-      function(images) {
-      	self.images = images;
+      function(photos) {
+      	self.photos = photos;
         self.isInitialized = true;
-        console.log("initializeNow loaded #" + images.length);
+        console.log("initializeNow loaded #" + photos.length);
      	}, 
       function(error) {
      		alert(error.message);

@@ -42,7 +42,7 @@
   <img src="img/loading-fb.gif" ng-hide="facebook.isInitialized">
 
   <div masonry column-width="200" preserve-order reload-on-resize >
-    <div class="masonry-brick" ng-repeat="photo in facebook.images">
+    <div class="masonry-brick" ng-repeat="photo in facebook.photos">
       <a ng-href="{{photo.images[1].source}}" data-lightbox="thephotos">
         <img class="picture" ng-src="{{photo.picture}}">
       </a>
