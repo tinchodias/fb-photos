@@ -39,9 +39,7 @@
 
 <body ng-controller="FacebookCtrl as facebook">
 
-  <div ng-show="facebook.isFBSdkInitialized">
-  
-    <button ng-hide="facebook.isFBLoggedIn" ng-click="facebook.showLogin()">Facebook Log In</button>
+    <button ng-show="facebook.isFBSdkInitialized && !facebook.isFBLoggedIn" ng-click="facebook.showLogin()">Facebook Log In</button>
 
     <div ng-show="facebook.isFBLoggedIn">
       
@@ -71,8 +69,6 @@
 
     </div>
 
-
-  </div>
 
   <script src="js/facebook.js"></script>
   <script>
