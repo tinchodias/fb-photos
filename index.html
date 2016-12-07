@@ -18,6 +18,7 @@
   <script src="bower_components/masonry/masonry.js"></script>
   <script src="bower_components/imagesloaded/imagesloaded.js"></script>
   <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="bower_components/angular-masonry/angular-masonry.js"></script>
 
   <!-- LIGHTBOX -->
@@ -39,38 +40,11 @@
 
 <body ng-controller="FacebookCtrl as facebook">
 
-    <button ng-show="facebook.isFBSdkInitialized && !facebook.isFBLoggedIn" ng-click="facebook.showLogin()">Facebook Log In</button>
+  <div ui-view></div>
 
-    <div ng-show="facebook.isFBLoggedIn">
-      
-      <img ng-show="!facebook.isFBDataLoaded" src="img/loading-fb.gif">
-
-      <div ng-show="facebook.isFBDataLoaded" masonry column-width="200" preserve-order reload-on-resize >
-        <div class="masonry-brick" ng-repeat="photo in facebook.photos">
-
-          <a ng-href="{{photo.images[1].source}}" data-lightbox="thephotos">
-            <img class="picture" ng-src="{{photo.picture}}">
-          </a>
-          <div class="info">
-            <p>
-              <span><i class="fa fa-clock-o"></i> {{photo.created_time | date}}</span>
-              <span><i class="fa fa-comments"></i> {{photo.comments.data.length || 0}}</span>
-              <span><i class="fa fa-heart"></i> {{photo.reactions.data.length || 0}}</span>
-            </p>
-            <p>
-              <span><i class="fa fa-picture-o"></i> {{photo.images[1].width}}x{{photo.images[1].height}}</span>
-              <span><a target="_blank" ng-href="{{photo.link}}"><i class="fa fa-external-link"></i></a></span>
-              <span><a download ng-href="{{photo.images[1].source}}"><i class="fa fa-download"></i></a></span>
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-
+  <script src="js/app.js"></script>
   <script src="js/facebook.js"></script>
+  <script src="js/routes.js"></script>
   <script>
     lightbox.option({
       'resizeDuration': 200,

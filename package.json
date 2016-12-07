@@ -4,7 +4,6 @@
   "description": "FB photo browser",
   "main": "index.js",
   "dependencies": {
-    "angular-masonry": "^0.16.0",
   },
   "devDependencies": {},
   "scripts": {

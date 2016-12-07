@@ -1,15 +1,10 @@
 'use strict';
 
-
-angular.module('app', ['wu.masonry'])
-
-
-.controller('FacebookCtrl', function ($q, $window) {
+app.controller('FacebookCtrl', function ($q, $window, $state) {
 
 	var self = this;
 	self.accessToken = '';
 	self.photos = [];
-  self.isFBSdkInitialized = false;
   self.isFBLoggedIn = false;
   self.isFBDataLoaded = false;
 
@@ -31,6 +26,8 @@ angular.module('app', ['wu.masonry'])
     if (self.isFBLoggedIn) {
       self.accessToken = response.authResponse.accessToken;
       self.loadFBData();    // hardcoded access token (debugging)
+    } else {
+      $state.go("login");
     }
   };
 
@@ -49,8 +46,6 @@ angular.module('app', ['wu.masonry'])
 //      cookie     : true,  // enable cookies to allow the server to access the session
       version    : 'v2.8'
     });
-
-    self.isFBSdkInitialized = true;
 
     if (self.accessToken !== '') {
       // hardcoded access token (debugging)
@@ -118,10 +113,14 @@ angular.module('app', ['wu.masonry'])
 
 	self.loadFBData = function() {
 
+    $state.go("wait");
+
 		self.getAllPhotos().then(
       function(photos) {
       	self.photos = photos;
         self.isFBDataLoaded = true;
+
+        $state.go("photos");
 
         console.log("loadFBData: " + photos.length + " photos");
      	}, 
