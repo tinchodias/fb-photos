@@ -9,7 +9,7 @@ angular.module('app', ['wu.masonry'])
 	var self = this;
 	self.accessToken = '';
 	self.photos = [];
-//  self.isFBSdkInitialized = false;
+  self.isFBSdkInitialized = false;
   self.isFBLoggedIn = false;
   self.isFBDataLoaded = false;
 
@@ -50,7 +50,7 @@ angular.module('app', ['wu.masonry'])
       version    : 'v2.8'
     });
 
-//    self.isFBSdkInitialized = true;
+    self.isFBSdkInitialized = true;
 
     if (self.accessToken !== '') {
       // hardcoded access token (debugging)
