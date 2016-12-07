@@ -14,8 +14,28 @@ angular.module('app', ['wu.masonry'])
   self.isFBDataLoaded = false;
 
 
-  $window.fbAsyncInit = function() {
+  // This is called with the response from FB.getLoginStatus() or after the FB login button is pressed.
+  // The status can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not ('unknown').
+  //
+  // These three cases are handled in the callback function.
+  self.loginStatusCallback = function(response) {
+    console.log(response);
+    
+    self.isFBLoggedIn = response.status === 'connected';
 
+    if (self.isFBLoggedIn) {
+      self.accessToken = response.authResponse.accessToken;
+      self.loadFBData();    // hardcoded access token (debugging)
+    }
+  };
+
+
+  $window.fbAsyncInit = function() {
 
     if (self.accessToken !== '') {
       // hardcoded access token (debugging)
@@ -41,26 +61,6 @@ angular.module('app', ['wu.masonry'])
   self.showLogin = function() {
     FB.login(self.loginStatusCallback, { scope: 'public_profile,user_photos,pages_show_list' });
   }
-
-  // This is called with the response from FB.getLoginStatus() or after the FB login button is pressed.
-  // The status can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not ('unknown').
-  //
-  // These three cases are handled in the callback function.
-  self.loginStatusCallback = function(response) {
-    console.log(response);
-    
-    self.isFBLoggedIn = response.status === 'connected';
-
-    if (self.isFBLoggedIn) {
-      self.accessToken = response.authResponse.accessToken;
-      self.loadFBData();    // hardcoded access token (debugging)
-    }
-  };
 
 
   self.getAllPhotos = function() {
