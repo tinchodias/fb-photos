@@ -14,6 +14,12 @@ angular.module('app', ['wu.masonry'])
   self.isFBDataLoaded = false;
 
 
+  self.$watch('isFBSdkInitialized', function(oldValue, newValue) {
+    if (newValue) {
+      FB.XFBML.parse();
+    }
+  });
+
   $window.fbAsyncInit = function() {
 
     FB.init({
@@ -24,7 +30,7 @@ angular.module('app', ['wu.masonry'])
     });
 
     self.isFBSdkInitialized = true;
-    FB.XFBML.parse(); 
+    
 
     if (self.accessToken !== '') {
       // hardcoded access token (debugging)
