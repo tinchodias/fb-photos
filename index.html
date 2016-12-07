@@ -41,17 +41,7 @@
 
   <div ng-show="facebook.isFBSdkInitialized">
   
-    <div ng-hide="facebook.isFBLoggedIn">
-      <!--
-        Below we include the Login Button social plugin. This button uses
-        the JavaScript SDK to present a graphical Login button that triggers
-        the FB.login() function when clicked.
-      -->
-      <fb:login-button scope="public_profile,user_photos,pages_show_list" data-size="xlarge" onlogin="window.checkLoginStatus();">
-      </fb:login-button>
-
-    </div>
-
+    <button ng-hide="facebook.isFBLoggedIn" ng-click="facebook.showLogin()">Facebook Log In</button>
 
     <div ng-show="facebook.isFBLoggedIn">
       
@@ -59,7 +49,7 @@
 
       <div ng-show="facebook.isFBDataLoaded" masonry column-width="200" preserve-order reload-on-resize >
         <div class="masonry-brick" ng-repeat="photo in facebook.photos">
-        
+
           <a ng-href="{{photo.images[1].source}}" data-lightbox="thephotos">
             <img class="picture" ng-src="{{photo.picture}}">
           </a>

@@ -14,37 +14,33 @@ angular.module('app', ['wu.masonry'])
   self.isFBDataLoaded = false;
 
 
-  $watch('isFBSdkInitialized', function(oldValue, newValue) {
-    if (newValue) {
-      FB.XFBML.parse();
-    }
-  });
-
   $window.fbAsyncInit = function() {
+
+
+    if (self.accessToken !== '') {
+      // hardcoded access token (debugging)
+      self.loadFBData();
+    } else {
+      // FB.init with status:true triggers this event
+      FB.Event.subscribe('auth.statusChange', self.loginStatusCallback);
+    }
 
     FB.init({
       appId      : '1830084957235970', // AboutMe
+      status     : true,
       xfbml      : false,
       cookie     : true,  // enable cookies to allow the server to access the session
       version    : 'v2.8'
     });
 
     self.isFBSdkInitialized = true;
-    
-
-    if (self.accessToken !== '') {
-      // hardcoded access token (debugging)
-      self.loadFBData();
-    } else {
-      // Now that we've initialized the FB JavaScript SDK, we call 
-      // FB.getLoginStatus().  This function gets the state of the
-      // person visiting this page and can return one of three states to
-      // the callback you provide. 
-      self.checkLoginStatus();
-    }
 
   };
 
+
+  self.showLogin = function() {
+    FB.login(self.loginStatusCallback, { scope: 'public_profile,user_photos,pages_show_list' });
+  }
 
   // This is called with the response from FB.getLoginStatus() or after the FB login button is pressed.
   // The status can be:
@@ -55,22 +51,16 @@ angular.module('app', ['wu.masonry'])
   //    your app or not ('unknown').
   //
   // These three cases are handled in the callback function.
-  self.checkLoginStatus = function() {
-    FB.getLoginStatus(function(response) {
-      console.log(response);
-      
-      self.isFBLoggedIn = response.status === 'connected';
+  self.loginStatusCallback = function(response) {
+    console.log(response);
+    
+    self.isFBLoggedIn = response.status === 'connected';
 
-      if (self.isFBLoggedIn) {
-        self.accessToken = response.authResponse.accessToken;
-        self.loadFBData();    // hardcoded access token (debugging)
-      }
-    });
+    if (self.isFBLoggedIn) {
+      self.accessToken = response.authResponse.accessToken;
+      self.loadFBData();    // hardcoded access token (debugging)
+    }
   };
-
-  
-  // "EXPORT"
-  $window.checkLoginStatus = self.checkLoginStatus;
 
 
   self.getAllPhotos = function() {
