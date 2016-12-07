@@ -14,30 +14,67 @@ angular.module('app', ['wu.masonry'])
   $window.fbAsyncInit = function() {
 
     FB.init({
-      appId      : '1830084957235970',
+      appId      : '1830084957235970', // AboutMe
       xfbml      : false,
-//      status     : true, // check the login status upon init?
-//      cookie     : true, // set sessions cookies to allow your server to access the session?
+      cookie     : true,  // enable cookies to allow the server to access the session
+      xfbml      : true,  // parse social plugins on this page
       version    : 'v2.8'
     });
 
 
+    // Now that we've initialized the FB JavaScript SDK, we call 
+    // FB.getLoginStatus().  This function gets the state of the
+    // person visiting this page and can return one of three states to
+    // the callback you provide. 
     if (self.accessToken !== '') {
       self.initializeNow();    // hardcoded access token (debugging)
     } else {
-  		FB.getLoginStatus(function(response) {
-  		  console.log(response);
-  		  if (response.status === 'connected') {
-  				self.accessToken = response.authResponse.accessToken;			// Is accessToken from the website visitor mandatory?
-  		    self.initializeNow();
-  		  }
-  		  else {
-  		    window.location = "index.html"    // redirect to login page
-  		  }
-  		});      
+      self.checkLoginStatus();
     }
 
   };
+
+
+
+
+  // This is called with the response from FB.getLoginStatus() or after the FB login button is pressed.
+  // The status can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not ('unknown').
+  //
+  // These three cases are handled in the callback function.
+  self.checkLoginStatus = function() {
+    FB.getLoginStatus(function(response) {
+      console.log('loginStatusChangeCallback');
+      console.log(response);
+      
+      self.loginStatus = response.status;
+
+      if (response.status === 'connected') {
+        // Logged into your app and Facebook.
+
+        self.accessToken = response.authResponse.accessToken;
+        self.initializeNow();    // hardcoded access token (debugging)
+
+      } else if (response.status === 'not_authorized') {
+        // The person is logged into Facebook, but not your app.
+
+      } else { 
+        // The person is not logged into Facebook, so we're not sure if
+        // they are logged into this app or not.
+      }
+    });
+  };
+
+  
+  // "EXPORT"
+  $window.checkLoginStatus = self.checkLoginStatus;
+
+
+
 
 
 
@@ -107,6 +144,8 @@ angular.module('app', ['wu.masonry'])
      	}
   	);
   };
+
+
 
 
 })

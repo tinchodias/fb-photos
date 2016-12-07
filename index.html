@@ -1,104 +1,85 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en" ng-app="app">
+
 <head>
-<title>Facebook Login JavaScript Example</title>
-<meta charset="UTF-8">
+  <meta charset="utf-8">
+  <title>Facebook Photo Browser</title>
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+
+  <!-- ANGULAR MASONRY -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/jquery-bridget/jquery-bridget.js"></script>
+  <script src="bower_components/ev-emitter/ev-emitter.js"></script>
+  <script src="bower_components/desandro-matches-selector/matches-selector.js"></script>
+  <script src="bower_components/fizzy-ui-utils/utils.js"></script>
+  <script src="bower_components/get-size/get-size.js"></script>
+  <script src="bower_components/outlayer/item.js"></script>
+  <script src="bower_components/outlayer/outlayer.js"></script>
+  <script src="bower_components/masonry/masonry.js"></script>
+  <script src="bower_components/imagesloaded/imagesloaded.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-masonry/angular-masonry.js"></script>
+
+  <!-- LIGHTBOX -->
+  <link href="bower_components/lightbox2/dist/css/lightbox.min.css" rel="stylesheet">
+  <script src="bower_components/lightbox2/dist/js/lightbox.min.js"></script>
+
+  <!-- FACEBOOK GRAPH API -->
+  <script src="//connect.facebook.net/en_US/sdk.js"></script>
+
+  <!-- ASYNC -->
+  <script src="bower_components/async/dist/async.min.js"></script>
+
+  <!-- FONT AWESOME -->
+  <script src="https://use.fontawesome.com/9ccc9f2c30.js"></script>
+
+
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
-<body>
-<script>
-  // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-      testAPI();
-      window.setTimeout(function(){ window.location = "ready.html"; },3000);
 
-    } else if (response.status === 'not_authorized') {
-      // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
-    } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into Facebook.';
-    }
-  }
+<body ng-controller="FacebookCtrl as facebook">
 
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
+  <div ng-hide="facebook.isInitialized" >
+    <!--
+      Below we include the Login Button social plugin. This button uses
+      the JavaScript SDK to present a graphical Login button that triggers
+      the FB.login() function when clicked.
+    -->
+    <fb:login-button scope="public_profile,user_photos,pages_show_list" data-size="xlarge" onlogin="window.checkLoginStatus();">
+    </fb:login-button>
 
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '1830084957235970',
-    cookie     : true,  // enable cookies to allow the server to access the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.8' // use graph api version 2.8
-  });
+  </div>
 
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
+ <!--  <img src="img/loading-fb.gif" ng-hide="facebook.isInitialized"> -->
 
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
+  <div masonry column-width="200" preserve-order reload-on-resize >
+    <div class="masonry-brick" ng-repeat="photo in facebook.photos">
+      <a ng-href="{{photo.images[1].source}}" data-lightbox="thephotos">
+        <img class="picture" ng-src="{{photo.picture}}">
+      </a>
+      <div class="info">
+        <p>
+          <span><i class="fa fa-clock-o"></i> {{photo.created_time | date}}</span>
+          <span><i class="fa fa-comments"></i> {{photo.comments.data.length || 0}}</span>
+          <span><i class="fa fa-heart"></i> {{photo.reactions.data.length || 0}}</span>
+        </p>
+        <p>
+          <span><i class="fa fa-picture-o"></i> {{photo.images[1].width}}x{{photo.images[1].height}}</span>
+          <span><a target="_blank" ng-href="{{photo.link}}"><i class="fa fa-external-link"></i></a></span>
+          <span><a download ng-href="{{photo.images[1].source}}"><i class="fa fa-download"></i></a></span>
+        </p>
+      </div>
+    </div>
+  </div>
 
-  };
-
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-    });
-  }
-</script>
-
-<!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
-
-<fb:login-button scope="public_profile,user_photos,pages_show_list" data-size="xlarge" onlogin="checkLoginState();">
-</fb:login-button>
-
-
-<div id="status">
-</div>
+  <script src="js/facebook.js"></script>
+  <script>
+    lightbox.option({
+      'resizeDuration': 200,
+      'disableScrolling': true
+    })
+  </script>
 
 </body>
 </html>
+
