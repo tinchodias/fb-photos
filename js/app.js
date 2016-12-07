@@ -1,2 +1,2 @@
 
-app = angular.module('app', ['wu.masonry'])
+app = angular.module('app', ['ui.router', 'wu.masonry'])
