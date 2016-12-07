@@ -5,9 +5,6 @@ app.controller('FacebookCtrl', function ($q, $window, $state) {
 	var self = this;
 	self.accessToken = '';
 	self.photos = [];
-  self.isFBLoggedIn = false;
-  self.isFBDataLoaded = false;
-
 
   // This is called with the response from FB.getLoginStatus() or after the FB login button is pressed.
   // The status can be:
@@ -21,9 +18,7 @@ app.controller('FacebookCtrl', function ($q, $window, $state) {
   self.loginStatusCallback = function(response) {
     console.log(response);
     
-    self.isFBLoggedIn = response.status === 'connected';
-
-    if (self.isFBLoggedIn) {
+    if (response.status === 'connected') {
       self.accessToken = response.authResponse.accessToken;
       self.loadFBData();    // hardcoded access token (debugging)
     } else {
@@ -118,7 +113,6 @@ app.controller('FacebookCtrl', function ($q, $window, $state) {
 		self.getAllPhotos().then(
       function(photos) {
       	self.photos = photos;
-        self.isFBDataLoaded = true;
 
         $state.go("photos");
 
