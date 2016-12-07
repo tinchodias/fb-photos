@@ -20,13 +20,14 @@ angular.module('app', ['wu.masonry'])
       appId      : '1830084957235970', // AboutMe
       xfbml      : false,
       cookie     : true,  // enable cookies to allow the server to access the session
-      xfbml      : true,  // parse social plugins on this page
       version    : 'v2.8'
     });
 
+    self.isFBSdkInitialized = true;
+    FB.XFBML.parse(); 
+
     if (self.accessToken !== '') {
       // hardcoded access token (debugging)
-      self.isFBSdkInitialized = true;
       self.loadFBData();
     } else {
       // Now that we've initialized the FB JavaScript SDK, we call 
@@ -53,7 +54,6 @@ angular.module('app', ['wu.masonry'])
       console.log(response);
       
       self.isFBLoggedIn = response.status === 'connected';
-      self.isFBSdkInitialized = true;
 
       if (self.isFBLoggedIn) {
         self.accessToken = response.authResponse.accessToken;
@@ -122,7 +122,7 @@ angular.module('app', ['wu.masonry'])
       function(photos) {
       	self.photos = photos;
         self.isFBDataLoaded = true;
-        
+
         console.log("loadFBData: " + photos.length + " photos");
      	}, 
       function(error) {
