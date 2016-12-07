@@ -35,25 +35,29 @@ angular.module('app', ['wu.masonry'])
   };
 
 
-  $window.fbAsyncInit = function() {
+  self.checkLoginStatus = function() {
+    FB.getLoginStatus(self.loginStatusCallback);
+  };
 
-    if (self.accessToken !== '') {
-      // hardcoded access token (debugging)
-      self.loadFBData();
-    } else {
-      // FB.init with status:true triggers this event
-      FB.Event.subscribe('auth.statusChange', self.loginStatusCallback);
-    }
+
+
+  $window.fbAsyncInit = function() {
 
     FB.init({
       appId      : '1830084957235970', // AboutMe
-      status     : true,
       xfbml      : false,
       cookie     : true,  // enable cookies to allow the server to access the session
       version    : 'v2.8'
     });
 
     self.isFBSdkInitialized = true;
+
+    if (self.accessToken !== '') {
+      // hardcoded access token (debugging)
+      self.loadFBData();
+    } else {
+      self.checkLoginStatus();
+    }
 
   };
 
