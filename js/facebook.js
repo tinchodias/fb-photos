@@ -9,7 +9,7 @@ angular.module('app', ['wu.masonry'])
 	var self = this;
 	self.accessToken = '';
 	self.photos = [];
-  self.isFBSdkInitialized = false;
+//  self.isFBSdkInitialized = false;
   self.isFBLoggedIn = false;
   self.isFBDataLoaded = false;
 
@@ -46,11 +46,11 @@ angular.module('app', ['wu.masonry'])
     FB.init({
       appId      : '1830084957235970', // AboutMe
       xfbml      : false,
-      cookie     : true,  // enable cookies to allow the server to access the session
+//      cookie     : true,  // enable cookies to allow the server to access the session
       version    : 'v2.8'
     });
 
-    self.isFBSdkInitialized = true;
+//    self.isFBSdkInitialized = true;
 
     if (self.accessToken !== '') {
       // hardcoded access token (debugging)
