@@ -14,7 +14,7 @@ angular.module('app', ['wu.masonry'])
   self.isFBDataLoaded = false;
 
 
-  $scope.$watch('isFBSdkInitialized', function(oldValue, newValue) {
+  $watch('isFBSdkInitialized', function(oldValue, newValue) {
     if (newValue) {
       FB.XFBML.parse();
     }
