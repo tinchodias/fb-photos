@@ -9,7 +9,10 @@ angular.module('app', ['wu.masonry'])
 	var self = this;
 	self.accessToken = '';
 	self.photos = [];
-  self.isInitialized = false;
+  self.isFBSdkInitialized = false;
+  self.isFBLoggedIn = false;
+  self.isFBDataLoaded = false;
+
 
   $window.fbAsyncInit = function() {
 
@@ -21,20 +24,19 @@ angular.module('app', ['wu.masonry'])
       version    : 'v2.8'
     });
 
-
-    // Now that we've initialized the FB JavaScript SDK, we call 
-    // FB.getLoginStatus().  This function gets the state of the
-    // person visiting this page and can return one of three states to
-    // the callback you provide. 
     if (self.accessToken !== '') {
-      self.initializeNow();    // hardcoded access token (debugging)
+      // hardcoded access token (debugging)
+      self.isFBSdkInitialized = true;
+      self.loadFBData();
     } else {
+      // Now that we've initialized the FB JavaScript SDK, we call 
+      // FB.getLoginStatus().  This function gets the state of the
+      // person visiting this page and can return one of three states to
+      // the callback you provide. 
       self.checkLoginStatus();
     }
 
   };
-
-
 
 
   // This is called with the response from FB.getLoginStatus() or after the FB login button is pressed.
@@ -48,23 +50,14 @@ angular.module('app', ['wu.masonry'])
   // These three cases are handled in the callback function.
   self.checkLoginStatus = function() {
     FB.getLoginStatus(function(response) {
-      console.log('loginStatusChangeCallback');
       console.log(response);
       
-      self.loginStatus = response.status;
+      self.isFBLoggedIn = response.status === 'connected';
+      self.isFBSdkInitialized = true;
 
-      if (response.status === 'connected') {
-        // Logged into your app and Facebook.
-
+      if (self.isFBLoggedIn) {
         self.accessToken = response.authResponse.accessToken;
-        self.initializeNow();    // hardcoded access token (debugging)
-
-      } else if (response.status === 'not_authorized') {
-        // The person is logged into Facebook, but not your app.
-
-      } else { 
-        // The person is not logged into Facebook, so we're not sure if
-        // they are logged into this app or not.
+        self.loadFBData();    // hardcoded access token (debugging)
       }
     });
   };
@@ -74,14 +67,9 @@ angular.module('app', ['wu.masonry'])
   $window.checkLoginStatus = self.checkLoginStatus;
 
 
-
-
-
-
   self.getAllPhotos = function() {
     return self.getAll('/me/photos', 'picture,images{source,width,height},created_time,link,reactions.limit(99){type},comments.limit(99){id}');
   };
-
 
 
   self.getAll = function(resource, fields) {
@@ -120,32 +108,28 @@ angular.module('app', ['wu.masonry'])
       return after !== undefined;
     },
     function (error) {
-      if (error) {
-        deferred.reject(error);
-      } else {
-        deferred.resolve(data);
-      }
+      if (error) { deferred.reject(error) } 
+      else { deferred.resolve(data) }
     });
 
     return deferred.promise;
   };
 
 
+	self.loadFBData = function() {
 
-	self.initializeNow = function() {
 		self.getAllPhotos().then(
       function(photos) {
       	self.photos = photos;
-        self.isInitialized = true;
-        console.log("initializeNow loaded #" + photos.length);
+        self.isFBDataLoaded = true;
+        
+        console.log("loadFBData: " + photos.length + " photos");
      	}, 
       function(error) {
      		alert(error.message);
-     	}
-  	);
+     	});
+
   };
-
-
 
 
 })
