@@ -1,6 +1,10 @@
 
+
+<img ng-show="photosCtrl.loading" src="img/loading-fb.gif">
+
+
 <div masonry column-width="200" preserve-order reload-on-resize >
-  <div class="masonry-brick" ng-repeat="photo in facebook.photos">
+  <div class="masonry-brick" ng-repeat="photo in photosCtrl.photos">
 
     <a ng-href="{{photo.images[1].source}}" data-lightbox="thephotos">
       <img class="picture" ng-src="{{photo.picture}}">

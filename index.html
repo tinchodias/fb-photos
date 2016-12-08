@@ -38,12 +38,24 @@
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 
-<body ng-controller="FacebookCtrl as facebook">
+<body ng-controller="FacebookCtrl as FacebookCtrl">
+  <script type="text/javascript">
+    window.fbAsyncInit = function() {
+
+      FB.init({
+        appId      : '1830084957235970', // AboutMe
+        xfbml      : false,
+  //      cookie     : true,  // enable cookies to allow the server to access the session
+        version    : 'v2.8'
+      }) 
+    }
+  </script>
 
   <div ui-view></div>
 
   <script src="js/app.js"></script>
   <script src="js/facebook.js"></script>
+  <script src="js/photos.js"></script>
   <script src="js/routes.js"></script>
   <script>
     lightbox.option({
@@ -51,6 +63,7 @@
       'disableScrolling': true
     })
   </script>
+
 
 </body>
 </html>

@@ -1,27 +1,36 @@
 app.config(function ($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/");
+  $urlRouterProvider.otherwise("/photos");
 
   $stateProvider
 
-    .state('blank', {
-      url: "/",
-      templateUrl: "partials/blank.html"
+    .state('private', {
+      abstract: true,
+      resolve: {
+        profile: function(Facebook, $state, $log, $q, $timeout) {
+          console.log("3123123123");
+          return Facebook.me().then(function(me) {
+              return me;
+            }, function() {
+//              $setTimeout(function() {
+                $state.go('login');//, {redirect: $state.toState.name});
+//              }, 1);
+            });
+        }
+      }
+    })
+
+    .state('private.photos', {
+      url: "/photos",
+      templateUrl: "partials/photos.html",
+      controller: "PhotosCtrl as photosCtrl"
     })
 
     .state('login', {
       url: "/login",
-      templateUrl: "partials/login.html"
+      templateUrl: "partials/login.html",
+      controller: "LoginCtrl as loginCtrl"
     })
 
-    .state('photos', {
-      url: "/photos",
-      templateUrl: "partials/photos.html"
-    })
-
-    .state('wait', {
-      url: "/wait",
-      templateUrl: "partials/wait.html"
-    })
 
 });
