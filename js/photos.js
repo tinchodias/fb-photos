@@ -7,7 +7,10 @@ app.controller('PhotosCtrl', function (Facebook) {
   self.loading = true;
 
   self.getAllPhotos = function() {
-    return Facebook.getAll('/me/photos', 'picture,images{source,width,height},created_time,link,reactions.limit(99){type},comments.limit(99){id}');
+    return Facebook.ready().then(function() {
+      Facebook.getAll('/me/photos', 'picture,images{source,width,height},created_time,link,reactions.limit(99){type},comments.limit(99){id}');
+    });
+    
   };
 
 

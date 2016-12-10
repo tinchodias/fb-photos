@@ -25,8 +25,8 @@
   <link href="bower_components/lightbox2/dist/css/lightbox.min.css" rel="stylesheet">
   <script src="bower_components/lightbox2/dist/js/lightbox.min.js"></script>
 
-  <!-- FACEBOOK GRAPH API -->
-  <script src="//connect.facebook.net/en_US/sdk.js"></script>
+  <!-- FACEBOOK GRAPH API 
+  <script src="//connect.facebook.net/en_US/sdk.js"></script>-->
 
   <!-- ASYNC -->
   <script src="bower_components/async/dist/async.min.js"></script>
@@ -38,18 +38,7 @@
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 
-<body ng-controller="FacebookCtrl as FacebookCtrl">
-  <script type="text/javascript">
-    window.fbAsyncInit = function() {
-
-      FB.init({
-        appId      : '1830084957235970', // AboutMe
-        xfbml      : false,
-  //      cookie     : true,  // enable cookies to allow the server to access the session
-        version    : 'v2.8'
-      }) 
-    }
-  </script>
+<body>
 
   <div ui-view></div>
 

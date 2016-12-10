@@ -4,33 +4,77 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
   $stateProvider
 
-    .state('private', {
+    /*.state('private', {
       abstract: true,
       resolve: {
-        profile: function(Facebook, $state, $log, $q, $timeout) {
-          console.log("3123123123");
-          return Facebook.me().then(function(me) {
-              return me;
-            }, function() {
-//              $setTimeout(function() {
-                $state.go('login');//, {redirect: $state.toState.name});
-//              }, 1);
-            });
+        
+        profile: function(Facebook, $state, $q, $timeout) {
+          console.log("resolve private");
+
+          return Facebook.ready().when(function() {
+            console.log("readyyyy");
+            if (!Facebook.isLoggedIn()) {
+              $timeout(function () {
+                $state.go('login');//, {redirect: $state.toState.name}); 
+              });
+            }
+          })
         }
+
       }
+    })*/
+
+    .state('wait', {
+      url: "/wait",
+      templateUrl: "partials/wait.html"
     })
 
-    .state('private.photos', {
+    .state('photos', {
       url: "/photos",
       templateUrl: "partials/photos.html",
-      controller: "PhotosCtrl as photosCtrl"
+      controller: "PhotosCtrl as photosCtrl",
+      resolve: {
+        redirectIfNotAuthenticated: _redirectIfNotAuthenticated
+      }
     })
 
     .state('login', {
       url: "/login",
       templateUrl: "partials/login.html",
-      controller: "LoginCtrl as loginCtrl"
-    })
+      controller: "LoginCtrl as loginCtrl",
+      resolve: {
+        skipIfAuthenticated: _skipIfAuthenticated
+      }
+    });
 
+  function _skipIfAuthenticated($q, $state, Facebook) {
+    var defer = $q.defer();
+    console.log("hey1");
+    Facebook.ready().when(function() {
+      if(Facebook.isLoggedIn()) {
+        defer.reject();
+      } else {
+        defer.resolve();
+      }
+    });
+    return defer.promise;
+  }
+   
+  function _redirectIfNotAuthenticated($q, $state, Facebook) {
+    var defer = $q.defer();
+    console.log("hey2");
+    Facebook.ready().when(function() {
+      console.log("hey2 when ready");
+      if(Facebook.isLoggedIn()) {
+        defer.resolve();
+      } else {
+        $timeout(function () {
+          $state.go('login');
+        });
+        defer.reject();
+      }
+    });
+    return defer.promise;
+  }
 
 });

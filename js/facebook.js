@@ -3,8 +3,7 @@
 app.service('Facebook', function ($q, $window) {
 
 	var self = this;
-	self.accessToken = 'EAAaAc9vI6wIBAF9z19OEkPIfeGxMszGtKcwHpCRQDPinDiT2hDX4vNT6BjTh9OFtX6B1q5059okXi1yXIivHecTpKp8AL6BUvICewdO06eIjFLyCUzPOy8BanhlHGxy5rZB4XvoQEcJ3eBqtO0wvcfDGxq1ebPS13D82yqAZDZD';
-
+	self.accessToken = '';
 
   // This is called with the response from FB.getLoginStatus() or after the FB login button is pressed.
   // The status can be:
@@ -28,48 +27,11 @@ app.service('Facebook', function ($q, $window) {
   };
 
 
-//   $window.fbAsyncInit = function() {
-
-//     FB.init({
-//       appId      : '1830084957235970', // AboutMe
-//       xfbml      : false,
-// //      cookie     : true,  // enable cookies to allow the server to access the session
-//       version    : 'v2.8'
-//     });
-
-//     if (self.accessToken !== '') {
-//       // hardcoded access token (debugging)
-//     } else {
-//       self.checkLoginStatus();
-//     }
-
-//   };
-
 
   self.showLogin = function() {
     FB.login(self.loginStatusCallback, { scope: 'public_profile,user_photos,pages_show_list' });
   };
 
-
-  self.me = function() {
-    var deferred = $q.defer();
-
-    FB.api('/me', {
-        access_token: self.accessToken
-      }, function(response) {
-        
-        console.log("me");
-        console.log(response);
-
-        if (!response || response.error) {
-          deferred.reject(response.error);
-        } else {
-          deferred.resolve(response);
-        }
-      });
-
-    return deferred.promise;
-  };
 
   self.getAllPhotos = function() {
     return self.getAll('/me/photos', 'picture,images{source,width,height},created_time,link,reactions.limit(99){type},comments.limit(99){id}');
@@ -126,14 +88,58 @@ app.service('Facebook', function ($q, $window) {
 
 
 
+  self.initializeNow = function() {
+    if (self.accessToken !== '') {
+     // hardcoded access token (debugging)
+    } else {
+     self.checkLoginStatus();
+    }
+  };
 
-//////////////
-  if (self.accessToken !== '') {
-   // hardcoded access token (debugging)
-  } else {
-   self.checkLoginStatus();
+
+
+  self.readyDefer = $q.defer();
+
+  self.ready = function() {
+    return self.readyDefer.promise;
+  };
+
+  self.isLoggedIn = function() {
+    return self.accessToken !== '';
+  };
+
+  console.log("fbAsyncInit 0");
+
+  $window.fbAsyncInit = function() {
+
+    console.log("fbAsyncInit 1");
+
+    FB.init({
+      appId      : '1830084957235970', // AboutMe
+      xfbml      : false,
+      version    : 'v2.8'
+    });
+
+    console.log("fbAsyncInit 2");
+    
+    self.initializeNow();
+
+    self.readyDefer.resolve();
+
+    console.log("fbAsyncInit 3");
+//    $scope.$broadcast('facebook-fb-async-init', "done");    
+//    $scope.$on('myCustomEvent', function (event, data) {});
   }
-////////////////
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
 
 });
 
