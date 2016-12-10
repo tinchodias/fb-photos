@@ -1,5 +1,34 @@
 'use strict';
 
+app.controller('LoginCtrl', function(Facebook, $state) {
+
+  var self = this;
+
+  // This is called with the response from FB.getLoginStatus() or after the FB login button is pressed.
+  // The status can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into your app or not ('unknown').
+  //
+  // These three cases are handled in the callback function.
+  function loginStatusCallback(response) {
+    console.log(response);
+    
+    if (response.status === 'connected') {
+      $state.go('photos');
+    }
+  }
+
+
+  self.showLogin = function() {
+    Facebook.login(loginStatusCallback, { scope: 'public_profile,user_photos,pages_show_list' });
+  };
+
+});
+
+
+
 /*
 app.service('Facebook', function ($q, $window) {
 
@@ -146,8 +175,3 @@ app.service('Facebook', function ($q, $window) {
 */
 
 
-app.controller('LoginCtrl', function(Facebook) {
-
-  this.showLogin = Facebook.showLogin;
-
-});

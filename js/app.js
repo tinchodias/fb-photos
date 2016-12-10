@@ -5,15 +5,19 @@ var app = angular.module('app', ['ui.router', 'wu.masonry', 'facebook']);
 
 
 app.config(function(FacebookProvider) {
-  FacebookProvider.init('1830084957235970'); // AboutMe
-  FacebookProvider.setSdkVersion('v2.8');
+  FacebookProvider.init({
+      appId      : '1830084957235970', // AboutMe
+      xfbml      : false,
+      cookie     : true,
+      version    : 'v2.8'
+    });
 });
 
 
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/wait");
+  $urlRouterProvider.otherwise("/login");
 
   $stateProvider
 

@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('PhotosCtrl', function (Facebook) {
+app.controller('PhotosCtrl', function (Facebook, $q) {
 
 	var self = this;
 	self.photos = [];
@@ -52,10 +52,7 @@ app.controller('PhotosCtrl', function (Facebook) {
   };
 
   self.getAllPhotos = function() {
-    return Facebook.then(function() {
-      Facebook.getAll('/me/photos', 'picture,images{source,width,height},created_time,link,reactions.limit(99){type},comments.limit(99){id}');
-    });
-    
+    return self.getAll('/me/photos', 'picture,images{source,width,height},created_time,link,reactions.limit(99){type},comments.limit(99){id}');
   };
 
 
