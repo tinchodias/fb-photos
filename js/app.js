@@ -17,7 +17,31 @@ app.config(function(FacebookProvider) {
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/login");
+//  $urlRouterProvider.otherwise("/photos");
+  $urlRouterProvider.otherwise(function($injector, $location){
+  
+    var Facebook = $injector.get('Facebook');
+    var $timeout = $injector.get('$timeout');
+    var $state = $injector.get('$state');
+
+    console.log("otherwise");
+    function checkAndResolve() {
+    
+      if (!Facebook.isReady()) {
+        console.log("otherwise: not ready; re-check later");
+        $timeout(checkAndResolve, 100); 
+      } else {
+        console.log("otherwise: logged in?");
+        Facebook.getLoginStatus(function(response) {
+          console.log("otherwise: login status response");
+          console.log(response);
+
+          $state.go((response.status === 'connected') ? 'photos' : 'login');
+        });
+      }
+    }
+    checkAndResolve();
+  });
 
   $stateProvider
 
@@ -28,7 +52,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         profile: function(Facebook, $state, $q, $timeout) {
           console.log("resolve private");
 
-          return Facebook.ready().when(function() {
+          return Facebook.ready().then(function() {
             console.log("readyyyy");
             if (!Facebook.isLoggedIn()) {
               $timeout(function () {
@@ -41,17 +65,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       }
     })*/
 
-    .state('wait', {
-      url: "/wait",
-      templateUrl: "partials/wait.html"
-    })
-
     .state('photos', {
       url: "/photos",
       templateUrl: "partials/photos.html",
       controller: "PhotosCtrl as photosCtrl",
       resolve: {
-//        redirectIfNotAuthenticated: _redirectIfNotAuthenticated
+        redirectIfNotAuthenticated: _redirectIfNotAuthenticated
       }
     })
 
@@ -64,8 +83,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       }
     });
 
+
+});
+
   function _skipIfAuthenticated($q, $state, Facebook) {
-/*    var defer = $q.defer();
+/*    var deferred = $q.defer();
     console.log("hey1");
 
     if (!Facebook.isReady()) {
@@ -74,7 +96,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       $timeout(function () {
         console.log("hey1 wait");
         $state.go('wait');
-        defer.reject();
+        deferred.reject();
       });
     }
 
@@ -83,39 +105,53 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       console.log(response);
 
       if(response.status === 'connected') {
-        defer.reject();
+        deferred.reject();
       } else {
-        defer.resolve();
+        deferred.resolve();
       }
     });
-    return defer.promise;*/
+    return deferred.promise;*/
   }
-   
-  function _redirectIfNotAuthenticated($q, $state, Facebook) {
-    var defer = $q.defer();
-    console.log("hey2");
 
-    if (!Facebook.isReady()) {
-      console.log("hey2 not ready");
-      $state.go('wait');
-      defer.reject();
-    } else {
-      Facebook.getLoginStatus(function(response) {
-        console.log("hey2 login status");
-        console.log(response);
 
-        if(response.status === 'connected') {
-          defer.resolve();
-        } else {
-          $timeout(function () {
-            $state.go('login');
-            defer.reject();
-          });
-        }
-      });
+  function _redirectIfNotAuthenticated($q, $state, $timeout, Facebook) {
+
+    console.log("redirectIfNotAuthenticated");
+    var deferred = $q.defer();
+
+    function checkAndResolve() {
+    
+      if (!Facebook.isReady()) {
+        console.log("not ready; re-check later");
+        $timeout(checkAndResolve, 100); 
+      } else {
+        console.log("logged in?");
+        Facebook.getLoginStatus(function(response) {
+          console.log("login status response");
+          console.log(response);
+
+          if(response.status === 'connected') {
+            return deferred.resolve();
+          } else {
+            return deferred.reject({redirectTo: 'login'});
+          }
+        });
+      }
     }
+    checkAndResolve();
 
-    return defer.promise;
+    return deferred.promise;
   }
 
+
+app.run(function($rootScope, $state) {
+  $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+    console.log(error);
+
+    if (error.redirectTo) {
+      $state.go(error.redirectTo, {goToState: toState.name}); ////////////// goToState NOT WORKING
+    } else {
+      //$state.go('error', {status: error.status})
+    }
+  });
 });

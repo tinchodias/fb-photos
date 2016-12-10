@@ -17,9 +17,8 @@ app.controller('LoginCtrl', function(Facebook, $state) {
     
     if (response.status === 'connected') {
       $state.go('photos');
-    }
+    } 
   }
-
 
   self.showLogin = function() {
     Facebook.login(loginStatusCallback, { scope: 'public_profile,user_photos,pages_show_list' });

@@ -20,7 +20,6 @@ app.controller('PhotosCtrl', function (Facebook, $q) {
         fields: fields,
         limit: '200',
         type: 'uploaded',
-        access_token: self.accessToken,
         after: after
       }, function(response) {
         
