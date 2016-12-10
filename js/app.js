@@ -13,7 +13,7 @@ app.config(function(FacebookProvider) {
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/photos");
+  $urlRouterProvider.otherwise("/wait");
 
   $stateProvider
 
@@ -47,7 +47,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       templateUrl: "partials/photos.html",
       controller: "PhotosCtrl as photosCtrl",
       resolve: {
-        redirectIfNotAuthenticated: _redirectIfNotAuthenticated
+//        redirectIfNotAuthenticated: _redirectIfNotAuthenticated
       }
     })
 
@@ -56,12 +56,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       templateUrl: "partials/login.html",
       controller: "LoginCtrl as loginCtrl",
       resolve: {
-        skipIfAuthenticated: _skipIfAuthenticated
+//        skipIfAuthenticated: _skipIfAuthenticated
       }
     });
 
   function _skipIfAuthenticated($q, $state, Facebook) {
-    var defer = $q.defer();
+/*    var defer = $q.defer();
     console.log("hey1");
 
     if (!Facebook.isReady()) {
@@ -84,7 +84,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         defer.resolve();
       }
     });
-    return defer.promise;
+    return defer.promise;*/
   }
    
   function _redirectIfNotAuthenticated($q, $state, Facebook) {
@@ -97,7 +97,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
       defer.reject();
     } else {
       Facebook.getLoginStatus(function(response) {
-        console.log("hey1 login status");
+        console.log("hey2 login status");
         console.log(response);
 
         if(response.status === 'connected') {
