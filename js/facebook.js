@@ -1,5 +1,6 @@
 'use strict';
 
+/*
 app.service('Facebook', function ($q, $window) {
 
 	var self = this;
@@ -142,7 +143,7 @@ app.service('Facebook', function ($q, $window) {
 
 
 });
-
+*/
 
 
 app.controller('LoginCtrl', function(Facebook) {
