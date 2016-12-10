@@ -75,7 +75,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
     })
 
     .state('login', {
-      url: "/login",
+      url: "/login?goToState",
       templateUrl: "partials/login.html",
       controller: "LoginCtrl as loginCtrl",
       resolve: {
@@ -149,7 +149,7 @@ app.run(function($rootScope, $state) {
     console.log(error);
 
     if (error.redirectTo) {
-      $state.go(error.redirectTo, {goToState: toState.name}); ////////////// goToState NOT WORKING
+      $state.go(error.redirectTo, {goToState: toState.name});
     } else {
       //$state.go('error', {status: error.status})
     }

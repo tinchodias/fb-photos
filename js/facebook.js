@@ -14,9 +14,10 @@ app.controller('LoginCtrl', function(Facebook, $state) {
   // These three cases are handled in the callback function.
   function loginStatusCallback(response) {
     console.log(response);
+    console.log("go to " + $state.params.goToState);
     
     if (response.status === 'connected') {
-      $state.go('photos');
+      $state.go($state.params.goToState || 'photos');
     } 
   }
 
