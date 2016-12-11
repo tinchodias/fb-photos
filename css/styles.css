@@ -4,12 +4,16 @@ html, body {
   font-family: sans-serif;
 }
 
+.masonry-brick {
+  width: 200px;
+}
+
 .picture {
-  width: 196px; // !!!
+  width: calc(100% - 4px);    // !!!
 }
 
 .info {
-  max-width: 196px; // !!!
+  width: calc(100% - 4px);    // !!!
 
   margin-top: 0;
   margin-bottom: 0.6em;

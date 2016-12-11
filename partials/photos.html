@@ -6,8 +6,11 @@
 <div masonry column-width="200" preserve-order reload-on-resize >
   <div class="masonry-brick" ng-repeat="photo in photosCtrl.photos">
 
-    <a ng-href="{{photo.images[1].source}}" data-lightbox="thephotos">
-      <img class="picture" ng-src="{{photo.picture}}">
+    <a ng-href="{{photo.images[0].source}}" data-lightbox="thephotos">
+      <img 
+        class="picture" 
+        ng-src="{{photo.picture}}" 
+        ng-style="photosCtrl.pictureStyles(photo)">
     </a>
     <div class="info">
       <p>
@@ -16,9 +19,9 @@
         <span><i class="fa fa-heart"></i> {{photo.reactions.data.length || 0}}</span>
       </p>
       <p>
-        <span><i class="fa fa-picture-o"></i> {{photo.images[1].width}}x{{photo.images[1].height}}</span>
+        <span><i class="fa fa-picture-o"></i> {{photo.images[0].width}}x{{photo.images[0].height}}</span>
         <span><a target="_blank" ng-href="{{photo.link}}"><i class="fa fa-external-link"></i></a></span>
-        <span><a download ng-href="{{photo.images[1].source}}"><i class="fa fa-download"></i></a></span>
+        <span><a download ng-href="{{photo.images[0].source}}"><i class="fa fa-download"></i></a></span>
       </p>
     </div>
   </div>

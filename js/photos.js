@@ -54,7 +54,6 @@ app.controller('PhotosCtrl', function (Facebook, $q) {
     return self.getAll('/me/photos', 'picture,images{source,width,height},created_time,link,reactions.limit(99){type},comments.limit(99){id}');
   };
 
-
 	self.getAllPhotos().then(
     function(photos) {
     	self.photos = photos;
@@ -65,6 +64,13 @@ app.controller('PhotosCtrl', function (Facebook, $q) {
    	}).finally(function() {
       self.loading = false;
     });
+
+
+  // belongs to the view; shouldn't be here...
+  self.pictureStyles = function(photo) {
+    var image = photo.images[0];
+    return { height: "" + (parseInt(image.height) / (parseInt(image.width) / 196)) + "px" }
+  };
 
 
 })
