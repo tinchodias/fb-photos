@@ -4,9 +4,17 @@ html, body {
   font-family: sans-serif;
 }
 
-.masonry-brick {
-  width: 200px;
+
+
+/* 3 columns by default */
+.grid-sizer, .masonry-brick { width: 33.333%; }
+
+@media screen and (min-width: 768px) {
+  /* 5 columns for larger screens */
+  .grid-sizer, .masonry-brick { width: 20%; }
 }
+
+
 
 .picture {
   background: #eeeeee url(../img/loading-fb.gif) center center no-repeat;

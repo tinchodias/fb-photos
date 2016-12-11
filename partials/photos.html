@@ -3,7 +3,8 @@
 <img ng-show="photosCtrl.loading" src="img/loading-fb.gif">
 
 
-<div masonry column-width="200" preserve-order reload-on-resize >
+<div masonry column-width=".grid-sizer" masonry-options="{ percentPosition: true }" preserve-order reload-on-resize >
+  <div class="grid-sizer"></div>
   <div class="masonry-brick" ng-repeat="photo in photosCtrl.photos">
 
     <a ng-href="{{photo.images[0].source}}" data-lightbox="thephotos">
