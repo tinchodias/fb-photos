@@ -9,6 +9,7 @@ html, body {
 }
 
 .picture {
+  background: #eeeeee url(../img/loading-fb.gif) center center no-repeat;
   width: calc(100% - 4px);    // !!!
 }
 

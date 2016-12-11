@@ -9,7 +9,7 @@
     <a ng-href="{{photo.images[0].source}}" data-lightbox="thephotos">
       <img 
         class="picture" 
-        ng-src="{{photo.picture}}" 
+        lazy-img="{{photo.picture}}"
         ng-style="photosCtrl.pictureStyles(photo)">
     </a>
     <div class="info">

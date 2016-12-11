@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', ['ui.router', 'wu.masonry', 'facebook']);
+var app = angular.module('app', ['ui.router', 'wu.masonry', 'facebook', 'angularLazyImg']);
 
 
 
