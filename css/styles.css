@@ -7,22 +7,35 @@ html, body {
 
 
 /* 3 columns by default */
-.grid-sizer, .masonry-brick { width: 33.333%; }
-
+.grid-sizer, .masonry-brick { width: 32%; }
 @media screen and (min-width: 768px) {
   /* 5 columns for larger screens */
-  .grid-sizer, .masonry-brick { width: 20%; }
+  .grid-sizer, .masonry-brick { width: 19%; }
 }
 
 
+// Many thanks to http://afroleft.com/lazy-loading-responsive-images/
+.picture-wrapper {
+    position: relative;
+    //padding-bottom: 24%; /* our ratio for this image, you can adjust this accordingly */
+    //padding-top: 30px; /* IE7 fix */
+    height: 0;
+    overflow: hidden;
+}
 
 .picture {
-  background: #eeeeee url(../img/loading-fb.gif) center center no-repeat;
-  width: calc(100% - 4px);    // !!!
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;    
+    background: #eeeeee url(../img/loading-fb.gif) center center no-repeat;
+//  width: calc(100% - 4px);    // !!!
 }
 
 .info {
-  width: calc(100% - 4px);    // !!!
+  width: 100%;
+//  width: calc(100% - 4px);    // !!!
 
   margin-top: 0;
   margin-bottom: 0.6em;

@@ -69,7 +69,7 @@ app.controller('PhotosCtrl', function (Facebook, $q) {
   // belongs to the view; shouldn't be here...
   self.pictureStyles = function(photo) {
     var image = photo.images[0];
-    return { height: "" + (parseInt(image.height) / (parseInt(image.width) / 196)) + "px" }
+    return { "padding-bottom": "" + ((parseInt(image.height) / parseInt(image.width)) * 100) + "%" }
   };
 
 
