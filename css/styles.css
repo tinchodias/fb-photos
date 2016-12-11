@@ -17,8 +17,6 @@ html, body {
 // Many thanks to http://afroleft.com/lazy-loading-responsive-images/
 .picture-wrapper {
     position: relative;
-    //padding-bottom: 24%; /* our ratio for this image, you can adjust this accordingly */
-    //padding-top: 30px; /* IE7 fix */
     height: 0;
     overflow: hidden;
 }
@@ -28,15 +26,12 @@ html, body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;    
-    background: #eeeeee url(../img/loading-fb.gif) center center no-repeat;
-//  width: calc(100% - 4px);    // !!!
+//    height: 100%;
+//    background: url(../img/loading-fb.gif) center center no-repeat;
 }
 
 .info {
   width: 100%;
-//  width: calc(100% - 4px);    // !!!
-
   margin-top: 0;
   margin-bottom: 0.6em;
 }
